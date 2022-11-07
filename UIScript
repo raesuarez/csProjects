@@ -1,0 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
+
+public class HealthSystem : MonoBehaviour
+{
+
+    // initializations
+    public float maxHealth = 60;
+    public float currentHealth;
+    public int hitDamage;
+    public Image healthBar;
+    public UnityEvent ChooseActionsAtEndofHealth;
+    public static bool isDead = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            ChooseActionsAtEndofHealth.Invoke();
+            isDead = true;
+            currentHealth = maxHealth;
+        }
+
+        // health cannot go over maxHealth
+        if (currentHealth > maxHealth)
+        {
+            float healthOver = currentHealth - maxHealth;
+            currentHealth -= currentHealth - maxHealth;
+        }
+
+        // losing 1 health every 5 seconds
+        if (currentHealth > 0)
+        {
+            currentHealth -= Time.deltaTime / 5;
+            healthBar.fillAmount = currentHealth / maxHealth;
+        }
+    }
+   
+    private  void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "O2Tank")
+        {
+            currentHealth += 5;
+        }
+
+        else if (collision.gameObject.tag == "Bullet")
+        {
+            currentHealth += -5;
+        }
+
+        else if (collision.gameObject.name == "collider 1 (21)")
+        {
+            currentHealth = -1;
+            Debug.Log("death");
+        }
+    }
+   
+    public void setHealth()
+    {
+        currentHealth = 60;
+        isDead = false;
+    }
+}

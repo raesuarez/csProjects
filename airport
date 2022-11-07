@@ -1,0 +1,98 @@
+/**
+ * airport class holds flight information.
+ *
+ * @author (Rachel Suarez)
+ * @version (2/17/2022)
+ */
+public class Airport
+{
+    private final String airport;
+    public String airline;
+    private int flNum;
+    private String from; 
+    private String to;
+    private Flight f = new Flight(airline, flNum, from, to);
+    private Flight[] flights;
+    private int i = 0;
+    private final int MAXFLIGHTS;
+    private String result = "";
+
+    //constructor: creates new Airport objects
+    public Airport(String airport){
+        this.airport = airport;
+        MAXFLIGHTS = 3;
+        flights = new Flight[MAXFLIGHTS];
+    }
+
+    //adds a Flight to an arr of Flights
+    public void addFlight(Flight f){
+        if (i == MAXFLIGHTS){
+            System.out.println("Cannot add more flights. Airport full.");
+        }
+
+        if (i < MAXFLIGHTS){
+            flights[i] = f;
+            i++;
+            System.out.println("Flight added.");
+        }
+    }
+
+    //provides string representation of airport object
+    public String toString(){
+        return "Flight capacity of "+ airport + " is: " + MAXFLIGHTS +
+        ". Currently serving " + flights.length + " flights.";
+    }
+
+    //returns airline arr of flights at the airport from airline
+    public Flight[] findFlightsByAirline(String airline){
+        Flight[] airlines = new Flight[MAXFLIGHTS];
+        
+        for (i = 0; i < flights.length; i++){
+            if (flights[i].getFrom() == airport || flights[i].getTo() == airport){
+                if (flights[i].airline != airline);
+
+                if (airline == flights[i].airline){
+                    airlines[i] = flights[i];
+
+                }}
+        }
+
+        return airlines;
+    }
+
+    //prints flights at the airport from airline
+    public void printFlightsByAirline(String airline){
+        Flight[] airlines = new Flight[MAXFLIGHTS];
+
+        for (i = 0; i < flights.length; i++){
+            if (flights[i].getFrom() == airport || flights[i].getTo() == airport){
+                if (airline == flights[i].getAirline()){
+                    airlines[i] = flights[i];
+
+                    System.out.println(airlines[i]);
+                }
+            }
+        }
+    }
+
+    //testing
+    public static void main(String[] args){
+        Airport a1 = new Airport("MIA");
+        System.out.println(a1);
+
+        Flight f1 = new Flight("AA", 0000, "MIA", "BOS");
+        Flight f2 = new Flight("AA", 0001, "BOS", "MIA");
+        Flight f3 = new Flight("AA", 0002, "BOS", "JFK");
+        Flight f4 = new Flight("AA", 0003, "JFK", "MIA");
+
+        System.out.println("Adding flights 0, 1, 2, & 3.");
+        a1.addFlight(f1);
+        a1.addFlight(f2);
+        a1.addFlight(f3);
+        a1.addFlight(f4);
+
+        a1.findFlightsByAirline("AA");
+        System.out.println("Printing flights from AA.");
+        a1.printFlightsByAirline("AA");
+    }
+}

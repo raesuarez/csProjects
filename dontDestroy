@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class DontDestroyScript : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        // retrieve what the current scene is
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        // take the name of the current scene and put it into the variable sceneName
+        string sceneName = currentScene.name;
+
+        // only retain the gameObject if the scene is not BeginningScene
+        if (sceneName == "EndScene" || sceneName == "RestartGameScene")
+        {
+            /*            Debug.Log("not BeginningScene");
+            */
+            Destroy(gameObject);
+        }
+
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+}
